@@ -1,0 +1,28 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=Default Profile.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+MenuBar=Disabled
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAEQAAAD0fwCAAAAAvsAAAAcAFMAUwBIAE0AYQBuAGEAZwBlAHIARABvAGMAawAAAAAeAAAD0QAAARUBAAAD+wAAACIAUQB1AGkAYwBrAEMAbwBtAG0AYQBuAGQAcwBEAG8AYwBrAAAAAAD/////AAABfAEAAAMAAAdSAAAD7wAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAAAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIDAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAwAAAFD/////AAAAAAAAAAA=
+ToolBarsMovable=Disabled
+
+[MainWindow][Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[MainWindow][Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
+
+[Toolbar mainToolBar]
+ToolButtonStyle=IconOnly
+
+[Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
+
+[UiSettings]
+ColorScheme=
