@@ -22,7 +22,7 @@ return require("packer").startup(function(use)
     use("github/copilot.vim")
 
     -- Git
-    use { "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" }
+    use { "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" }
     use { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" }
     use { "akinsho/git-conflict.nvim", tag = "*" }
     use("lewis6991/gitsigns.nvim")

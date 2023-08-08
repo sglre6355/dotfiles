@@ -277,3 +277,6 @@ XMODIFIERS="@im=fcitx5"
 
 # Python
 export PYTHONDONTWRITEBYTECODE=1
+
+# GitHub CLI
+eval "$(gh completion -s zsh)"
