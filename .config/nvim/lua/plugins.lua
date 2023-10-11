@@ -1,32 +1,27 @@
-vim.cmd [[packadd packer.nvim]]
-
-return require("packer").startup(function(use)
-	-- Packer can manage itself
-	use "wbthomason/packer.nvim"
-	
+return {
     -- Neovim
-	use("lambdalisue/fern.vim")
-    use("lambdalisue/nerdfont.vim")
-    use("lambdalisue/fern-renderer-nerdfont.vim")
-	use("nvim-telescope/telescope.nvim")
-	use("nvim-lua/plenary.nvim")
-	use("BurntSushi/ripgrep")
-	use("nvim-tree/nvim-web-devicons")
-	use("nvim-treesitter/nvim-treesitter")
-	use("neoclide/coc.nvim")
-	use("sharkdp/fd")
-	use("nvim-lualine/lualine.nvim")
-    use("tomasiser/vim-code-dark")
-    
+    "lambdalisue/fern.vim",
+    "lambdalisue/nerdfont.vim",
+    "lambdalisue/fern-renderer-nerdfont.vim",
+    "nvim-telescope/telescope.nvim",
+    "nvim-lua/plenary.nvim",
+    "BurntSushi/ripgrep",
+    "nvim-tree/nvim-web-devicons",
+    "nvim-treesitter/nvim-treesitter",
+    "neoclide/coc.nvim",
+    "sharkdp/fd",
+    "nvim-lualine/lualine.nvim",
+    "tomasiser/vim-code-dark",
+
     -- Coding assistance
-    use("github/copilot.vim")
+    "github/copilot.vim",
 
     -- Git
-    use { "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" }
-    use { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" }
-    use { "akinsho/git-conflict.nvim", tag = "*" }
-    use("lewis6991/gitsigns.nvim")
-    
+    { "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" },
+    { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" },
+    { "akinsho/git-conflict.nvim", version = "*", config = true },
+    "lewis6991/gitsigns.nvim",
+
     -- Python
-    use("brentyi/isort.vim")
-end)
+    "brentyi/isort.vim"
+}

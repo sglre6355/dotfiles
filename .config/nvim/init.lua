@@ -1,5 +1,7 @@
 require("plugins")
 
+require("lazy").setup("plugins")
+
 function gray(component)
     return {component, color={fg="#a2a3a6"}}
 end
