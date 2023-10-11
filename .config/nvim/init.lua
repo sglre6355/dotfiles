@@ -22,8 +22,6 @@ require("nvim-treesitter.configs").setup({
     }
 })
 
-vim.g["fern#renderer"] = "nerdfont"
-
 vim.api.nvim_command("colorscheme codedark")
 
 require("neogit").setup()
@@ -63,5 +61,4 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map("n", "<C-n>", ":Fern . -reveal=% -drawer -toggle -width=40<CR>", {silent = true})
 map("n", "<C-f>", ":Telescope find_files<CR>", {silent = true})

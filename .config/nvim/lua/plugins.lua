@@ -1,8 +1,5 @@
 return {
     -- Neovim
-    "lambdalisue/fern.vim",
-    "lambdalisue/nerdfont.vim",
-    "lambdalisue/fern-renderer-nerdfont.vim",
     "nvim-telescope/telescope.nvim",
     "nvim-lua/plenary.nvim",
     "BurntSushi/ripgrep",
