@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": "python",
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Args": ["--ignore E501"],
-    "java.import.gradle.java.home": "/usr/lib/jvm/java-17-openjdk"
-}
