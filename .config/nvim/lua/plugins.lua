@@ -39,12 +39,6 @@ return {
 	-- Coding assistance
 	"zbirenbaum/copilot.lua",
 
-	-- Git
-	{ "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" },
-	{ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" },
-	{ "akinsho/git-conflict.nvim", version = "*", config = true },
-	"lewis6991/gitsigns.nvim",
-
     -- LaTeX
     "lervag/vimtex",
 }

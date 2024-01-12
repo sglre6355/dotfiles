@@ -43,10 +43,6 @@ require("nvim-treesitter.configs").setup({
 
 vim.api.nvim_command("colorscheme codedark")
 
-require("neogit").setup()
-require("git-conflict").setup()
-require("gitsigns").setup()
-
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 
