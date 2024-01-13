@@ -117,10 +117,6 @@ cmp.setup.filetype("gitcommit", {
 })
 
 -- Vim options
-vim.o.termguicolors = true
-
-vim.api.nvim_command("colorscheme codedark")
-
 vim.o.mouse = "a"
 
 vim.o.swapfile = false
@@ -140,6 +136,11 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
 vim.diagnostic.config({ update_in_insert = true })
+
+if os.getenv("TERM") ~= "linux" then
+    vim.o.termguicolors = true
+    vim.api.nvim_command("colorscheme flexoki-dark")
+end
 
 -- Shortcut key mapping
 function map(mode, lhs, rhs, opts)
