@@ -33,6 +33,19 @@ require("lint").linters_by_ft = {
 -- Formatter
 local formatter_util = require("formatter.util")
 
+function prettier()
+    return {
+        exe = "~/.local/share/nvim/mason/bin/prettier",
+        args = {
+            "--tab-width 4",
+            "--html-whitespace-sensitivity ignore",
+            "--stdin-filepath",
+            formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
+        },
+        stdin = true,
+    }
+end
+
 require("formatter").setup({
     logging = true,
     log_level = vim.log.levels.WARN,
@@ -40,20 +53,9 @@ require("formatter").setup({
         ["*"] = {
             require("formatter.filetypes.any").remove_trailing_whitespace,
         },
-        html = {
-            function()
-                return {
-                    exe = "~/.local/share/nvim/mason/bin/prettier",
-                    args = {
-                        "--tab-width 4",
-                        "--html-whitespace-sensitivity ignore",
-                        "--stdin-filepath",
-                        formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
-                    },
-                    stdin = true,
-                }
-            end,
-        },
+        html = { prettier },
+        javascript = { prettier },
+        json = { prettier },
         python = {
             require("formatter.filetypes.python").black,
             require("formatter.filetypes.python").isort,
