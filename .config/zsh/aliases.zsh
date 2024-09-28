@@ -29,11 +29,17 @@ if [ -x /usr/bin/dircolors ]; then
     zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 fi
 
+if [ "$TERM" = xterm-kitty ]; then
+    alias ssh="kitten ssh"
+fi
+
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
-alias l='ls -CF'
+alias lt='ls -lt'
 
+# To preserve aliases when using sudo
 alias sudo='sudo '
+
 alias veracrypt='veracrypt -t'
-alias cd='cd -P'
+alias sdkmanager="sdkmanager --sdk_root=$ANDROID_SDK_ROOT"
