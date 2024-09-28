@@ -240,5 +240,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # GitHub CLI
 eval "$(gh completion -s zsh)"
 
-source $XDG_CONFIG_HOME/zsh/arduino-cli-completion.zsh
+# Arduino CLI
+eval "$(arduino-cli completion zsh)"
+
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
