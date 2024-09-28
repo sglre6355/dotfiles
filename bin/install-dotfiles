@@ -38,8 +38,6 @@ function show_result() {
 [[ $login_shell =~ zsh$ ]];               show_result 'Login shell is zsh  -- `chsh -s $(which zsh)`'
 builtin command -v nvim > /dev/null 2>&1; show_result 'Neovim              -- Text Editor'
 builtin command -v git > /dev/null 2>&1;  show_result 'Git                 -- Version Control System'
-builtin command -v node > /dev/null 2>&1; show_result 'Node.js             -- Required by coc.nvim'
-builtin command -v npm > /dev/null 2>&1;  show_result 'npm                 -- Node Package Manager'
 if [[ $has_error -ne 0 ]]; then
   echo 'Please install and configure required components.'
   exit 1

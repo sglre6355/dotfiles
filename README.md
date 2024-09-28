@@ -7,8 +7,6 @@
 - [zsh](https://www.zsh.org/)
 - [Git](https://git-scm.com/)
 - [Neovim](https://neovim.io/)
-- [Node.js](https://nodejs.org/) -- required by coc.nvim
-- [npm](https://www.npmjs.com/) -- required by coc.nvim
 
 ## Install
 
