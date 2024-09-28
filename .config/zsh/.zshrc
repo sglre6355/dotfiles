@@ -223,20 +223,6 @@ fi
 
 # End of zsh config
 
-export EDITOR=nvim
-export PATH="$PATH:$HOME/.local/bin"
-
-# GPG
-export GPG_TTY=$(tty)
-
-# Input method module settings
-GTK_IM_MODULE="fcitx5"
-QT_IM_MODULE="fcitx5"
-XMODIFIERS="@im=fcitx5"
-
-# Python
-export PYTHONDONTWRITEBYTECODE=1
-
 # GitHub CLI
 eval "$(gh completion -s zsh)"
 
