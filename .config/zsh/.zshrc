@@ -224,9 +224,13 @@ fi
 # End of zsh config
 
 # GitHub CLI
-eval "$(gh completion -s zsh)"
+if [ ! command -v gh &> /dev/null ]; then
+    eval "$(gh completion -s zsh)"
+fi
 
 # Arduino CLI
-eval "$(arduino-cli completion zsh)"
+if [ ! command -v arduino-cli &> /dev/null ]; then
+    eval "$(arduino-cli completion zsh)"
+fi
 
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
