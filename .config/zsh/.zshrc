@@ -233,4 +233,9 @@ if [ ! command -v arduino-cli &> /dev/null ]; then
     eval "$(arduino-cli completion zsh)"
 fi
 
+# kubectl
+if [ ! command -v kubectl &> /dev/null ]; then
+    eval "$(kubectl completion zsh | head -n -4)"
+fi
+
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
