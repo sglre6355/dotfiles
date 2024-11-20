@@ -224,22 +224,22 @@ fi
 # End of zsh config
 
 # GitHub CLI
-if [ ! command -v gh &> /dev/null ]; then
+if type gh > /dev/null; then
     eval "$(gh completion -s zsh)"
 fi
 
 # Arduino CLI
-if [ ! command -v arduino-cli &> /dev/null ]; then
+if type arduino-cli > /dev/null; then
     eval "$(arduino-cli completion zsh)"
 fi
 
 # kubectl
-if [ ! command -v kubectl &> /dev/null ]; then
+if type kubectl > /dev/null; then
     eval "$(kubectl completion zsh | head -n -4)"
 fi
 
 # Tailscale
-if [ ! command -v tailscale &> /dev/null ]; then
+if type tailscale > /dev/null; then
     eval "$(tailscale completion zsh | head -n -4)"
 fi
 
