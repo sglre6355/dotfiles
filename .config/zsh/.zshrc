@@ -238,4 +238,9 @@ if [ ! command -v kubectl &> /dev/null ]; then
     eval "$(kubectl completion zsh | head -n -4)"
 fi
 
+# Tailscale
+if [ ! command -v tailscale &> /dev/null ]; then
+    eval "$(tailscale completion zsh | head -n -4)"
+fi
+
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
