@@ -17,3 +17,8 @@ fi
 if type tailscale > /dev/null; then
     source <(tailscale completion zsh | head -n -4)
 fi
+
+# Podman
+if type podman > /dev/null; then
+    source <(podman completion zsh | head -n -6)
+fi
