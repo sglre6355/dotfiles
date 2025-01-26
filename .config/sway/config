@@ -21,8 +21,8 @@ output * bg #4e4e4e solid_color
 #
 exec swayidle -w \
          timeout 300 'swaylock -f -c 4e4e4e' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         timeout 900 'systemctl suspend' \
+         timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 1800 'systemctl suspend-then-hibernate' \
          before-sleep 'swaylock -f -c 4e4e4e'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -117,6 +117,9 @@ input type:touchpad {
     bindsym $mod+b splith
     bindsym $mod+v splitv
 
+    # Default layout of new workspaces
+    workspace_layout tabbed
+
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
@@ -178,6 +181,10 @@ bindsym $mod+r mode "resize"
     bindsym Print exec grim - | wl-copy
     # Snipping tool
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
+    # Lock screen
+    bindsym $mod+L exec swaylock -f -c 4e4e4e
+    # Lock screen and suspend-then-hibernate
+    bindsym $mod+Shift+L exec systemctl suspend-then-hibernate; swaylock -f -c 4e4e4e
 
 #
 # Status Bar:
@@ -200,6 +207,5 @@ bar {
 #
 # Startup apps/commands:
 #
-exec swaymsg layout tabbed
 exec brightnessctl set 30%
 exec fcitx5 -dr
