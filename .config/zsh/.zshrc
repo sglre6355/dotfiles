@@ -223,5 +223,7 @@ fi
 
 # End of zsh config
 
-source $XDG_CONFIG_HOME/zsh/aliases.zsh
-source $XDG_CONFIG_HOME/zsh/completions.zsh
+# GPG
+export GPG_TTY=$(tty)
+
+source $XDG_CONFIG_HOME/zsh/*.zsh

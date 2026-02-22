@@ -43,3 +43,11 @@ alias sudo='sudo '
 
 alias veracrypt='veracrypt -t'
 alias sdkmanager="sdkmanager --sdk_root=$ANDROID_SDK_ROOT"
+
+function ntfy() {
+    curl -d "$*" ntfy.sh/sglre6355
+}
+
+alias cat='bat -pP'
+
+alias npm=pnpm

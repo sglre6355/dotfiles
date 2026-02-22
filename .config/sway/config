@@ -7,13 +7,16 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Your preferred terminal emulator
-set $term kitty
+set $term wezterm
 # Your preferred application launcher
-set $menu wofi --show drun
+set $menu wofi --show drun -D key_expand=Tab
 
 ### Output configuration
 #
 output * bg #4e4e4e solid_color
+output "AOC 24B3HA2 AVKR69A005771" pos 1920 0
+output "AOC 24B3HA2 AVKR69A005233" pos 0 0
+workspace 10 output "AOC 24B3HA2 AVKR69A005233"
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -22,7 +25,7 @@ output * bg #4e4e4e solid_color
 exec swayidle -w \
          timeout 300 'swaylock -f -c 4e4e4e' \
          timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         timeout 1800 'systemctl suspend-then-hibernate' \
+         timeout 1800 '[ "$(cat /sys/class/power_supply/AC/online)" = "0" ] && systemctl suspend' \
          before-sleep 'swaylock -f -c 4e4e4e'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -67,6 +70,8 @@ input type:touchpad {
 #
 # Moving around:
 #
+    # Always wrap focus inside workspace
+    focus_wrapping workspace
     # Move your focus around
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
@@ -75,6 +80,12 @@ input type:touchpad {
     # Move focus to next or previous window
     bindsym $mod+Tab focus next
     bindsym $mod+Shift+Tab focus prev
+
+    bindsym Alt+Tab workspace next
+    bindsym Alt+Shift+Tab workspace prev
+
+    bindsym Alt+Control+Tab focus output right
+    bindsym Alt+Control+Shift+Tab focus output left
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+Left move left
@@ -108,6 +119,11 @@ input type:touchpad {
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+    # Move focused workspace to output
+    bindsym $mod+Control+Shift+Right move workspace to output right
+    bindsym $mod+Control+Shift+Left move workspace to output left
+    bindsym $mod+Control+Shift+Down move workspace to output down
+    bindsym $mod+Control+Shift+Up move workspace to output up
 #
 # Layout stuff:
 #
@@ -177,14 +193,16 @@ bindsym $mod+r mode "resize"
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
+    bindsym --locked XF86MonBrightnessDown+Shift exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp+Shift exec brightnessctl set 5%+
     # Special key to take a screenshot with grim
-    bindsym Print exec grim - | wl-copy
+    # bindsym Print exec grim - | wl-copy
     # Snipping tool
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy
     # Lock screen
-    bindsym $mod+L exec swaylock -f -c 4e4e4e
+    bindsym $mod+l exec swaylock -f -c 4e4e4e
     # Lock screen and suspend-then-hibernate
-    bindsym $mod+Shift+L exec systemctl suspend-then-hibernate; swaylock -f -c 4e4e4e
+    bindsym $mod+Shift+l exec systemctl suspend; swaylock -f -c 4e4e4e
 
 #
 # Status Bar:
@@ -207,5 +225,10 @@ bar {
 #
 # Startup apps/commands:
 #
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec brightnessctl set 30%
 exec fcitx5 -dr
+exec kanshi
+
+bindsym $mod+Shift+n exec swaync-client -t -sw
+# bindsym Page_Up exec swaync-client -d

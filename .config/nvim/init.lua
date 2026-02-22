@@ -17,57 +17,88 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
 -- LSP
-require("mason-lspconfig").setup_handlers({
-    function(server_name)
-        require("lspconfig")[server_name].setup({
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
-        })
-    end,
+vim.lsp.config("*", {
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+vim.lsp.config("clangd", {
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
 })
 
--- Linter
-require("lint").linters_by_ft = {
-    python = { "flake8" },
-}
-
--- Formatter
-local formatter_util = require("formatter.util")
-
-function prettier()
-    return {
-        exe = "~/.local/share/nvim/mason/bin/prettier",
-        args = {
-            "--tab-width 4",
-            "--html-whitespace-sensitivity ignore",
-            "--stdin-filepath",
-            formatter_util.escape_path(formatter_util.get_current_buffer_file_path()),
-        },
-        stdin = true,
-    }
-end
-
-require("formatter").setup({
-    logging = true,
-    log_level = vim.log.levels.WARN,
-    filetype = {
-        ["*"] = {
-            require("formatter.filetypes.any").remove_trailing_whitespace,
-        },
-        html = { prettier },
-        javascript = { prettier },
-        json = { prettier },
-        python = {
-            require("formatter.filetypes.python").black,
-            require("formatter.filetypes.python").isort,
-        },
-        lua = {
-            require("formatter.filetypes.lua").stylua,
+vim.lsp.config("rust-analyzer", {
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = function()
+        return vim.lsp.rpc.connect("127.0.0.1", 27631)
+    end,
+    init_options = {
+        lspMux = {
+            version = "1",
+            method = "connect",
+            server = "rust-analyzer",
         },
     },
 })
 
+-- Linter
+require("lint").linters_by_ft = {
+    dockerfile = { "hadolint" },
+    gitcommit = { "commitlint" },
+    go = { "golangcilint" },
+    markdown = { "markdownlint" },
+    python = { "flake8" },
+    yaml = { "actionlint" },
+}
+
+vim.api.nvim_create_user_command("Lint", function()
+    require("lint").try_lint()
+end, {})
+
+-- Formatter
+local util = require("conform.util")
+
+require("conform").setup({
+    formatters = {
+        rustfmt = {
+            args = function(self, ctx)
+                local args = { "+nightly", "--emit=stdout" }
+                local edition = util.parse_rust_edition(ctx.dirname) or self.options.default_edition
+                table.insert(args, "--edition=" .. edition)
+                return args
+            end,
+        },
+        golangcilint = {
+            command = "golangci-lint",
+            args = {
+                "fmt",
+                "--stdin",
+            },
+        },
+    },
+    formatters_by_ft = {
+        go = { "golangci-lint" },
+        html = { "prettier" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        lua = { "stylua" },
+        markdown = { "markdownlint" },
+        protobuf = { "buf" },
+        python = { "isort", "black" },
+        rust = { "rustfmt", lsp_format = "fallback" },
+        sql = { "sql_formatter" },
+        typst = { "typstyle" },
+        xml = { "xmlformatter" },
+        yaml = { "yamlfmt" },
+    },
+})
+
+vim.api.nvim_create_user_command("Format", function()
+    require("conform").format()
+end, {})
+
 -- Treesitter
 require("nvim-treesitter.configs").setup({
+    indent = {
+        enable = true,
+    },
     autotag = {
         enable = true,
     },
@@ -118,6 +149,19 @@ cmp.setup.filetype("gitcommit", {
     }),
 })
 
+require("goto-preview").setup({
+    default_mappings = true,
+})
+
+vim.g.ftplugin_sql_omni_key = ""
+
+vim.g.codecompanion_auto_tool_mode = true
+--vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<C-s>", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])
+
 -- Vim options
 vim.o.mouse = "a"
 
@@ -136,8 +180,12 @@ vim.o.wrapscan = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-
-vim.diagnostic.config({ update_in_insert = true })
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = true,
+})
 
 if os.getenv("TERM") ~= "linux" then
     vim.o.termguicolors = true
@@ -154,3 +202,7 @@ function map(mode, lhs, rhs, opts)
 end
 
 map("n", "<C-f>", ":Telescope find_files<CR>", { silent = true })
+map("n", "<A-l>", ":Lint<CR>", { silent = true })
+map("n", "<A-f>", ":Format<CR>", { silent = true })
+
+vim.keymap.set("x", "p", '"0p', { silent = true })

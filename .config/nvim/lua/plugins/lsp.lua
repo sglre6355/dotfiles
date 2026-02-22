@@ -14,4 +14,10 @@ return {
     },
     { "williamboman/mason-lspconfig.nvim", opts = {} },
     "tamago324/nlsp-settings.nvim",
+    {
+        "rmagatti/goto-preview",
+        dependencies = { "rmagatti/logger.nvim" },
+        event = "BufEnter",
+        config = true,
+    },
 }

@@ -1,3 +1,3 @@
 return {
-    "mhartington/formatter.nvim",
+    "stevearc/conform.nvim",
 }
