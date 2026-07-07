@@ -1,12 +1,21 @@
 {
-  description = "sglre6355's NixOS configuration";
+  description = "sglre6355's system configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs, ... }:
+    {
+      self,
+      nixpkgs,
+      nix-darwin,
+      ...
+    }:
     let
       username = "sglre6355";
     in
@@ -30,6 +39,19 @@
           specialArgs = {
             host = "SGR-PCPB01";
             inherit self username;
+          };
+        };
+      };
+
+      darwinConfigurations = {
+        m-stony = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./hosts/m-stony
+          ];
+          specialArgs = {
+            host = "m-stony";
+            inherit self;
+            username = "keima_hara";
           };
         };
       };
