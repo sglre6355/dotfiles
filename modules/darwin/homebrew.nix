@@ -13,6 +13,7 @@
       "autoraiseapp"
       "docker-desktop"
       "nikitabobko/tap/aerospace"
+      "karabiner-elements"
     ];
   };
 }
