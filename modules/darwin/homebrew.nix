@@ -6,8 +6,14 @@
     enable = true;
 
     taps = [
-      "dimentium/autoraise"
-      "nikitabobko/tap"
+      {
+        name = "dimentium/autoraise";
+        trusted = true;
+      }
+      {
+        name = "nikitabobko/tap";
+        trusted = true;
+      }
     ];
 
     casks = [
