@@ -44,6 +44,16 @@
       };
 
       darwinConfigurations = {
+        intern595noMacBook-Pro = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./hosts/intern595noMacBook-Pro
+          ];
+          specialArgs = {
+            host = "intern595noMacBook-Pro";
+            inherit self;
+            username = "intern595";
+          };
+        };
         m-stony = nix-darwin.lib.darwinSystem {
           modules = [
             ./hosts/m-stony
