@@ -6,6 +6,7 @@
     enable = true;
 
     taps = [
+      "dimentium/autoraise"
       "nikitabobko/tap"
     ];
 
