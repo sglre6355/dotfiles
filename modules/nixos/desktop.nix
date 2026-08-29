@@ -23,6 +23,8 @@
     pulse.enable = true;
   };
 
+  security.rtkit.enable = true;
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
