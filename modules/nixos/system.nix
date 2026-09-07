@@ -21,4 +21,9 @@
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
+
+  systemd.coredump.settings.Coredump = {
+    ProcessSizeMax = "2G";
+    ExternalSizeMax = "2G";
+  };
 }
