@@ -22,6 +22,7 @@
       "dialout"
       "disk"
       "networkmanager"
+      "plugdev"
     ];
   };
 }
