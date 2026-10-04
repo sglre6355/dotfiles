@@ -1,0 +1,19 @@
+{
+  ...
+}:
+{
+  imports = [
+    ./bootloader.nix
+    ./desktop.nix
+    ./hardware.nix
+    ./network.nix
+    ./packages.nix
+    ./programs.nix
+    ./security.nix
+    ./services.nix
+    ./swap.nix
+    ./system.nix
+    ./users.nix
+    ./virtualization.nix
+  ];
+}
