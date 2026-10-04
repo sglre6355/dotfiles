@@ -55,8 +55,9 @@
           "Alt+Tab" = "workspace next_on_output";
           "Alt+Shift+Tab" = "workspace prev_on_output";
 
-          "Alt+Control+Tab" = "focus output right";
-          "Alt+Control+Shift+Tab" = "focus output left";
+          # Cycle outputs whether they are laid out vertically or horizontally.
+          "Alt+Control+Tab" = "focus output down; focus output right";
+          "Alt+Control+Shift+Tab" = "focus output up; focus output left";
 
           "${modifier}+Control+Shift+Left" = "move workspace to output left";
           "${modifier}+Control+Shift+Down" = "move workspace to output down";
