@@ -4,7 +4,8 @@
   ...
 }:
 let
-  # Toolchain for the rust-analyzer that lspmux hosts.
+  # Fallback toolchain for the rust-analyzer that lspmux hosts. A project's
+  # devshell PATH takes precedence over it (see `lspMux.env`).
   rustToolchainPath = lib.makeBinPath (
     with pkgs;
     [
@@ -219,6 +220,7 @@ in
             nixd.enable = true;
             rust_analyzer = {
               enable = true;
+              packageFallback = true;
               installCargo = true;
               installRustc = true;
               extraOptions = {
@@ -231,6 +233,11 @@ in
                     version = "1";
                     method = "connect";
                     server = "rust-analyzer";
+                    # lspmux starts rust-analyzer outside the project's devshell.
+                    # Give it neovim's PATH so it can find the project's tools.
+                    env = lib.nixvim.mkRaw ''
+                      { PATH = vim.env.PATH .. ":${rustToolchainPath}" }
+                    '';
                   };
                 };
               };
