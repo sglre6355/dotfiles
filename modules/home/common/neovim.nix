@@ -213,6 +213,7 @@
                   vim.lsp.rpc.connect("127.0.0.1", 27631)
                 '';
                 settings.rust-analyzer = {
+                  cargo.features = "all";
                   lspMux = {
                     version = "1";
                     method = "connect";
