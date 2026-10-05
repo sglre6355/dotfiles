@@ -1,7 +1,20 @@
 {
+  lib,
   pkgs,
   ...
 }:
+let
+  # Toolchain for the rust-analyzer that lspmux hosts.
+  rustToolchainPath = lib.makeBinPath (
+    with pkgs;
+    [
+      gcc
+      cargo
+      rustc
+      rust-analyzer
+    ]
+  );
+in
 {
   programs.nixvim =
     { lib, ... }:
@@ -290,7 +303,7 @@
       Type = "simple";
       ExecStart = "${pkgs.lspmux}/bin/lspmux server";
       Environment = [
-        "PATH=${pkgs.gcc}/bin:${pkgs.cargo}/bin:${pkgs.rustc}/bin:${pkgs.rust-analyzer}/bin"
+        "PATH=${rustToolchainPath}"
         "RUST_SRC_PATH=${pkgs.rustPlatform.rustLibSrc}"
       ];
     };
