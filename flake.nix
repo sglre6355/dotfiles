@@ -78,16 +78,6 @@
       };
 
       darwinConfigurations = {
-        intern595noMacBook-Pro = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/intern595noMacBook-Pro/system.nix
-          ];
-          specialArgs = {
-            host = "intern595noMacBook-Pro";
-            inherit self;
-            username = "intern595";
-          };
-        };
         m-stony = nix-darwin.lib.darwinSystem {
           modules = [
             ./hosts/m-stony/system.nix
@@ -109,11 +99,6 @@
         "sglre6355@SGR-PCPB01" = mkHome {
           system = "x86_64-linux";
           host = ./hosts/sgr-pcpb01/home.nix;
-        };
-
-        "intern595@intern595noMacBook-Pro" = mkHome {
-          system = "aarch64-darwin";
-          host = ./hosts/intern595noMacBook-Pro/home.nix;
         };
 
         "keima_hara@m-stony" = mkHome {
