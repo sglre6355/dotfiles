@@ -5,7 +5,6 @@
 {
   imports = [
     ../../profiles/sglre6355.nix
-    ../../profiles/reazon-holdings.nix
 
     ../../modules/home/linux/desktop.nix
     ../../modules/home/common/fonts.nix

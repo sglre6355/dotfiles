@@ -77,19 +77,6 @@
         };
       };
 
-      darwinConfigurations = {
-        m-stony = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/m-stony/system.nix
-          ];
-          specialArgs = {
-            host = "m-stony";
-            inherit self;
-            username = "keima_hara";
-          };
-        };
-      };
-
       homeConfigurations = {
         "sglre6355@SGR-PCPA02" = mkHome {
           system = "x86_64-linux";
@@ -99,11 +86,6 @@
         "sglre6355@SGR-PCPB01" = mkHome {
           system = "x86_64-linux";
           host = ./hosts/sgr-pcpb01/home.nix;
-        };
-
-        "keima_hara@m-stony" = mkHome {
-          system = "aarch64-darwin";
-          host = ./hosts/m-stony/home.nix;
         };
       };
     };
