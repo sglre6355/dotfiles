@@ -30,6 +30,9 @@
             tabstop = 2;
           };
         };
+        # Auto-wrap comments at 80 (rustfmt's default `comment_width`) instead
+        # of the bundled ftplugin's 100. Code isn't auto-wrapped either way.
+        "after/ftplugin/rust.lua".localOpts.textwidth = 80;
       };
 
       opts = {
