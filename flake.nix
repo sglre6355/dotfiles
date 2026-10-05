@@ -33,11 +33,14 @@
 
       mkHome =
         { system, host }:
-        home-manager.lib.homeManagerConfiguration {
+        let
           pkgs = import nixpkgs-home {
             inherit system;
             config.allowUnfree = true;
           };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
 
           modules = [
             host
@@ -45,6 +48,7 @@
           ];
 
           extraSpecialArgs = {
+            inherit (pkgs.stdenv) hostPlatform;
             llmAgentsPkgs = llm-agents.packages.${system};
           };
         };
@@ -54,7 +58,7 @@
         SGR-PCPA02 = nixpkgs-system.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./system/hosts/sgr-pcpa02
+            ./hosts/sgr-pcpa02/system.nix
           ];
           specialArgs = {
             host = "SGR-PCPA02";
@@ -64,7 +68,7 @@
         SGR-PCPB01 = nixpkgs-system.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./system/hosts/sgr-pcpb01
+            ./hosts/sgr-pcpb01/system.nix
           ];
           specialArgs = {
             host = "SGR-PCPB01";
@@ -76,7 +80,7 @@
       darwinConfigurations = {
         intern595noMacBook-Pro = nix-darwin.lib.darwinSystem {
           modules = [
-            ./system/hosts/intern595noMacBook-Pro
+            ./hosts/intern595noMacBook-Pro/system.nix
           ];
           specialArgs = {
             host = "intern595noMacBook-Pro";
@@ -86,7 +90,7 @@
         };
         m-stony = nix-darwin.lib.darwinSystem {
           modules = [
-            ./system/hosts/m-stony
+            ./hosts/m-stony/system.nix
           ];
           specialArgs = {
             host = "m-stony";
@@ -99,22 +103,22 @@
       homeConfigurations = {
         "sglre6355@SGR-PCPA02" = mkHome {
           system = "x86_64-linux";
-          host = ./home/hosts/sgr-pcpa02.nix;
+          host = ./hosts/sgr-pcpa02/home.nix;
         };
 
         "sglre6355@SGR-PCPB01" = mkHome {
           system = "x86_64-linux";
-          host = ./home/hosts/sgr-pcpb01.nix;
+          host = ./hosts/sgr-pcpb01/home.nix;
         };
 
         "intern595@intern595noMacBook-Pro" = mkHome {
           system = "aarch64-darwin";
-          host = ./home/hosts/intern595noMacBook-Pro.nix;
+          host = ./hosts/intern595noMacBook-Pro/home.nix;
         };
 
         "keima_hara@m-stony" = mkHome {
           system = "aarch64-darwin";
-          host = ./home/hosts/m-stony.nix;
+          host = ./hosts/m-stony/home.nix;
         };
       };
     };
