@@ -3,6 +3,10 @@
   ...
 }:
 {
+  home.packages = with pkgs; [
+    pulseaudio
+  ];
+
   dconf = {
     enable = true;
     settings = {

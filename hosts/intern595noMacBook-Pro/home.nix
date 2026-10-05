@@ -6,7 +6,9 @@
   imports = [
     ../../profiles/hatena.nix
 
-    ../../modules/home/darwin/desktop
+    ../../modules/home/darwin/aerospace.nix
+    ../../modules/home/darwin/jankyborders.nix
+    ../../modules/home/darwin/karabiner.nix
   ];
 
   home.username = "intern595";

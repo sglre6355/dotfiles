@@ -6,7 +6,9 @@
   imports = [
     ../../profiles/reazon-holdings.nix
 
-    ../../modules/home/darwin/desktop
+    ../../modules/home/darwin/aerospace.nix
+    ../../modules/home/darwin/jankyborders.nix
+    ../../modules/home/darwin/karabiner.nix
   ];
 
   home.username = "keima_hara";

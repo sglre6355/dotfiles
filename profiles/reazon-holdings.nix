@@ -1,14 +1,19 @@
 {
+  lib,
   pkgs,
+  hostPlatform,
   ...
 }:
 {
   imports = [
     ./core.nix
 
-    ../modules/home/common/applications/google-chrome.nix
-    ../modules/home/common/development/claude-code.nix
-    ../modules/home/common/development/devenv.nix
+    ../modules/home/common/google-chrome.nix
+    ../modules/home/common/claude-code.nix
+    ../modules/home/common/devenv.nix
+  ]
+  ++ lib.optionals hostPlatform.isDarwin [
+    ../modules/home/darwin/google-chrome.nix
   ];
 
   home.packages = with pkgs; [

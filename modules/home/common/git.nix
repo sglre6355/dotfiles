@@ -3,7 +3,7 @@
 }:
 {
   imports = [
-    ../services/gpg-agent.nix
+    ./gpg-agent.nix
   ];
 
   programs.git = {

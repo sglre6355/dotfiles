@@ -6,19 +6,12 @@
 }:
 {
   imports = [
-    ../../common/applications/wezterm.nix
+    ../common/wezterm.nix
   ];
 
-  home.packages = with pkgs; [
-    pulseaudio
-    waypipe
-    wl-clipboard
-  ];
-
-  i18n.inputMethod.fcitx5 = {
-    waylandFrontend = true;
-    settings.addons.waylandim.globalSection.PersistentVirtualKeyboard = "True";
-  };
+  # Without this, fcitx5 destroys its virtual keyboard on every deactivation
+  # and sway's seat is left without a keyboard until a physical key is pressed.
+  i18n.inputMethod.fcitx5.settings.addons.waylandim.globalSection.PersistentVirtualKeyboard = "True";
 
   wayland.windowManager.sway = {
     enable = true;
@@ -294,13 +287,6 @@
     settings = {
       color = "4e4e4e";
       show-failed-attempts = true;
-    };
-  };
-
-  services.mako = {
-    enable = true;
-    settings = {
-      default-timeout = 5000;
     };
   };
 }

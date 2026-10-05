@@ -8,24 +8,24 @@
 {
   imports = [
     ../modules/home/common/zsh.nix
-    ../modules/home/common/services/gpg-agent.nix
+    ../modules/home/common/gpg-agent.nix
 
-    ../modules/home/common/commands/bat.nix
-    ../modules/home/common/commands/fzf.nix
-    ../modules/home/common/commands/neovim.nix
-    ../modules/home/common/commands/zellij.nix
-    ../modules/home/common/commands/zoxide.nix
+    ../modules/home/common/bat.nix
+    ../modules/home/common/fzf.nix
+    ../modules/home/common/neovim.nix
+    ../modules/home/common/zellij.nix
+    ../modules/home/common/zoxide.nix
 
-    ../modules/home/common/development/git.nix
-    ../modules/home/common/development/gh.nix
-    ../modules/home/common/development/herdr.nix
+    ../modules/home/common/git.nix
+    ../modules/home/common/gh.nix
+    ../modules/home/common/herdr.nix
 
-    ../modules/home/common/applications/firefox.nix
-    ../modules/home/common/applications/wezterm.nix
+    ../modules/home/common/firefox.nix
+    ../modules/home/common/wezterm.nix
   ]
   ++ lib.optionals hostPlatform.isLinux [
     ../modules/home/linux/xdg.nix
-    ../modules/home/linux/applications/junction.nix
+    ../modules/home/linux/junction.nix
   ];
 
   home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];

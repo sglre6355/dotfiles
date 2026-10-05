@@ -8,17 +8,17 @@
   imports = [
     ./core.nix
 
-    ../modules/home/common/commands/veracrypt.nix
-    ../modules/home/common/commands/rtorrent.nix
+    ../modules/home/common/veracrypt.nix
+    ../modules/home/common/rtorrent.nix
 
-    ../modules/home/common/development/claude-code.nix
-    ../modules/home/common/development/codex.nix
-    ../modules/home/common/development/devenv.nix
-    ../modules/home/common/development/kubernetes.nix
-    ../modules/home/common/development/podman.nix
+    ../modules/home/common/claude-code.nix
+    ../modules/home/common/codex.nix
+    ../modules/home/common/devenv.nix
+    ../modules/home/common/kubernetes.nix
+    ../modules/home/common/podman.nix
   ]
   ++ lib.optionals hostPlatform.isLinux [
-    ../modules/home/linux/applications/easyeffects.nix
+    ../modules/home/linux/easyeffects.nix
   ];
 
   home.username = lib.mkDefault "sglre6355";

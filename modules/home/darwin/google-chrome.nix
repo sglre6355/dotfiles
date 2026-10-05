@@ -1,12 +1,8 @@
 {
-  lib,
-  pkgs,
   ...
 }:
 {
-  programs.google-chrome.enable = true;
-
-  targets.darwin.defaults = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+  targets.darwin.defaults = {
     "com.google.Chrome" = {
       # Keys must match Chrome's menu item titles exactly (including "…").
       # Modifiers: ^ = Ctrl, $ = Shift, ~ = Option, @ = Cmd.
