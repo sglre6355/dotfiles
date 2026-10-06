@@ -9,6 +9,7 @@
       return {
         automatically_reload_config = true,
         enable_tab_bar = false,
+        enable_kitty_keyboard = true,
         font = wezterm.font 'JetBrains Mono',
         font_rules = {
           {
