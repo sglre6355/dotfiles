@@ -1,9 +1,26 @@
 {
+  pkgs,
   ...
 }:
 {
   programs.firefox = {
     enable = true;
+    package = pkgs.firefox.override {
+      extraPrefs = /* js */ ''
+        // Ctrl+wheel over the tab strip scrolls it.
+        Services.obs.addObserver(window => {
+          const tabs = window.gBrowser.tabContainer;
+          tabs.addEventListener("wheel", event => {
+            if (!event.ctrlKey || !event.deltaY) return;
+            event.preventDefault();
+            event.stopPropagation();
+            const box = tabs.arrowScrollbox;
+            const unit = [1, box.lineScrollAmount, box.scrollClientSize][event.deltaMode];
+            box.scrollByPixels(event.deltaY * unit);
+          }, { capture: true, passive: false });
+        }, "browser-delayed-startup-finished");
+      '';
+    };
     policies = {
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;
@@ -56,6 +73,7 @@
           "privacy.globalprivacycontrol.enabled" = true;
           "sidebar.revamp" = true;
           "sidebar.verticalTabs" = true;
+          "toolkit.tabbox.switchByScrolling" = true;
           "ui.key.menuAccessKeyFocuses" = false;
         };
       };
