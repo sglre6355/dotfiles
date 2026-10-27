@@ -196,23 +196,26 @@ in
         git-conflict.enable = true;
         gitsigns = {
           enable = true;
-          settings.on_attach = lib.nixvim.mkRaw /* lua */ ''
-            function(bufnr)
-              local gs = require("gitsigns")
-              local function map(mode, l, r, desc)
-                vim.keymap.set(mode, l, r, { buffer = bufnr, silent = true, desc = desc })
+          settings = {
+            diff_opts.algorithm = "histogram";
+            on_attach = lib.nixvim.mkRaw /* lua */ ''
+              function(bufnr)
+                local gs = require("gitsigns")
+                local function map(mode, l, r, desc)
+                  vim.keymap.set(mode, l, r, { buffer = bufnr, silent = true, desc = desc })
+                end
+                map("n", "<A-s>", gs.stage_hunk, "Stage/unstage hunk")
+                map("v", "<A-s>", function()
+                  gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+                end, "Stage selected lines")
+                map("n", "<A-S-s>", gs.stage_buffer, "Stage buffer")
+                map("n", "<A-r>", gs.reset_hunk, "Reset hunk")
+                map("n", "<A-p>", gs.preview_hunk_inline, "Preview hunk")
+                map("n", "]h", function() gs.nav_hunk("next") end, "Next hunk")
+                map("n", "[h", function() gs.nav_hunk("prev") end, "Prev hunk")
               end
-              map("n", "<A-s>", gs.stage_hunk, "Stage/unstage hunk")
-              map("v", "<A-s>", function()
-                gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-              end, "Stage selected lines")
-              map("n", "<A-S-s>", gs.stage_buffer, "Stage buffer")
-              map("n", "<A-r>", gs.reset_hunk, "Reset hunk")
-              map("n", "<A-p>", gs.preview_hunk_inline, "Preview hunk")
-              map("n", "]h", function() gs.nav_hunk("next") end, "Next hunk")
-              map("n", "[h", function() gs.nav_hunk("prev") end, "Prev hunk")
-            end
-          '';
+            '';
+          };
         };
         indent-blankline.enable = true;
         lsp = {
