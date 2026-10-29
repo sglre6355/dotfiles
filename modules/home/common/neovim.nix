@@ -226,6 +226,8 @@ in
                 map("n", "<A-S-s>", gs.stage_buffer, "Stage buffer")
                 map("n", "<A-r>", gs.reset_hunk, "Reset hunk")
                 map("n", "<A-p>", gs.preview_hunk_inline, "Preview hunk")
+                map("n", "<A-b>", function() gs.blame_line({ full = true }) end, "Blame line")
+                map("n", "<A-S-b>", gs.blame, "Blame buffer")
                 map("n", "]h", function() gs.nav_hunk("next") end, "Next hunk")
                 map("n", "[h", function() gs.nav_hunk("prev") end, "Prev hunk")
               end
