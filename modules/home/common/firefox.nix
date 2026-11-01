@@ -7,11 +7,11 @@
     enable = true;
     package = pkgs.firefox.override {
       extraPrefs = /* js */ ''
-        // Ctrl+wheel over the tab strip scrolls it.
+        // Ctrl+wheel or Shift+wheel over the tab strip scrolls it.
         Services.obs.addObserver(window => {
           const tabs = window.gBrowser.tabContainer;
           tabs.addEventListener("wheel", event => {
-            if (!event.ctrlKey || !event.deltaY) return;
+            if (!(event.ctrlKey || event.shiftKey) || !event.deltaY) return;
             event.preventDefault();
             event.stopPropagation();
             const box = tabs.arrowScrollbox;
