@@ -20,6 +20,8 @@
 
       bindkey '^[[Z' undo # Shift+Tab
       bindkey '^[`' push-line # Alt+`
+      bindkey '^[[1;5D' backward-word # Ctrl+Left
+      bindkey '^[[1;5C' forward-word # Ctrl+Right
     '';
     syntaxHighlighting.enable = true;
   };
