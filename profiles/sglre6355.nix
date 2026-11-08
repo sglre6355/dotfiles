@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  hostPlatform,
   ...
 }:
 {
@@ -16,9 +15,6 @@
     ../modules/home/common/devenv.nix
     ../modules/home/common/kubernetes.nix
     ../modules/home/common/podman.nix
-  ]
-  ++ lib.optionals hostPlatform.isLinux [
-    ../modules/home/linux/easyeffects.nix
   ];
 
   home.username = lib.mkDefault "sglre6355";
