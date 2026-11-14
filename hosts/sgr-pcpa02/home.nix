@@ -25,11 +25,11 @@
 
   wayland.windowManager.sway.config = {
     output = {
-      "AOC 24B3HA2 AVKR69A005771" = {
+      "AOC 24B3HA2 AVKR69A005233" = {
         mode = "1920x1080@120Hz";
         pos = "0 0";
       };
-      "AOC 24B3HA2 AVKR69A005233" = {
+      "AOC 24B3HA2 AVKR69A005771" = {
         mode = "1920x1080@120Hz";
         pos = "1920 0";
       };
