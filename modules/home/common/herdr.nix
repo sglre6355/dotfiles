@@ -20,6 +20,8 @@
         open_worktree = "prefix+shift+o";
         next_workspace = "ctrl+tab";
         previous_workspace = "ctrl+shift+tab";
+        next_tab = "ctrl+`";
+        previous_tab = "ctrl+shift+`";
       };
 
       experimental = {
