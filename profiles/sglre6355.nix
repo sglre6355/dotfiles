@@ -14,6 +14,7 @@
     ../modules/home/common/codex.nix
     ../modules/home/common/devenv.nix
     ../modules/home/common/kubernetes.nix
+    ../modules/home/common/opencode.nix
     ../modules/home/common/podman.nix
   ];
 
