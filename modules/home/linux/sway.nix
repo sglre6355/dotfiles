@@ -4,6 +4,28 @@
   pkgs,
   ...
 }:
+let
+  # Sway ignores idle inhibitors held by regular clients (such as Waybar) while
+  # the session is locked, so the inhibitor stops swayidle instead.
+  swayidleIsActive = "${pkgs.systemd}/bin/systemctl --user --quiet is-active swayidle.service";
+
+  idleInhibitStatus = pkgs.writeShellScript "idle-inhibit-status" ''
+    if ${swayidleIsActive}; then
+      echo '{"alt": "deactivated", "class": "deactivated", "tooltip": "Idle inhibitor: deactivated"}'
+    else
+      echo '{"alt": "activated", "class": "activated", "tooltip": "Idle inhibitor: activated"}'
+    fi
+  '';
+
+  idleInhibitToggle = pkgs.writeShellScript "idle-inhibit-toggle" ''
+    if ${swayidleIsActive}; then
+      ${pkgs.systemd}/bin/systemctl --user stop swayidle.service
+    else
+      ${pkgs.systemd}/bin/systemctl --user start swayidle.service
+    fi
+    ${pkgs.procps}/bin/pkill -RTMIN+8 waybar
+  '';
+in
 {
   imports = [
     ../common/wezterm.nix
@@ -109,7 +131,7 @@
           "custom/separator"
           "clock"
           "custom/separator"
-          "idle_inhibitor"
+          "custom/idle_inhibitor"
           "tray"
         ];
 
@@ -160,7 +182,12 @@
           tooltip = false;
         };
 
-        idle_inhibitor = {
+        "custom/idle_inhibitor" = {
+          exec = "${idleInhibitStatus}";
+          return-type = "json";
+          interval = "once";
+          signal = 8;
+          on-click = "${idleInhibitToggle}";
           format = "{icon}";
           format-icons = {
             activated = "";
@@ -244,7 +271,7 @@
         color: #ff0000;
       }
 
-      #idle_inhibitor {
+      #custom-idle_inhibitor {
         margin-right: 10px;
       }
     '';
