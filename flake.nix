@@ -75,6 +75,16 @@
             inherit self username;
           };
         };
+        SGR-PCSA01 = nixpkgs-system.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./hosts/sgr-pcsa01/system.nix
+          ];
+          specialArgs = {
+            host = "SGR-PCSA01";
+            inherit self username;
+          };
+        };
       };
 
       homeConfigurations = {
@@ -86,6 +96,11 @@
         "sglre6355@SGR-PCPB01" = mkHome {
           system = "x86_64-linux";
           host = ./hosts/sgr-pcpb01/home.nix;
+        };
+
+        "sglre6355@SGR-PCSA01" = mkHome {
+          system = "aarch64-linux";
+          host = ./hosts/sgr-pcsa01/home.nix;
         };
       };
     };

@@ -7,6 +7,7 @@
     ./desktop.nix
     ./hardware.nix
     ./network.nix
+    ./openssh.nix
     ./packages.nix
     ./programs.nix
     ./security.nix

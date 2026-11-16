@@ -15,6 +15,13 @@
 
   time.timeZone = "Europe/London";
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  environment.etc."systemd/network/99-default.link.d/wake-on-lan.conf".text = ''
+    [Link]
+    WakeOnLan=magic
+  '';
+
   programs.steam.enable = true;
 
   system.stateVersion = "25.11";

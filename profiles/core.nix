@@ -12,21 +12,18 @@
 
     ../modules/home/common/bat.nix
     ../modules/home/common/fzf.nix
-    ../modules/home/common/neovim.nix
     ../modules/home/common/zellij.nix
     ../modules/home/common/zoxide.nix
 
     ../modules/home/common/git.nix
     ../modules/home/common/gh.nix
     ../modules/home/common/herdr.nix
-
-    ../modules/home/common/firefox.nix
-    ../modules/home/common/wezterm.nix
   ]
   ++ lib.optionals hostPlatform.isLinux [
     ../modules/home/linux/xdg.nix
-    ../modules/home/linux/junction.nix
   ];
+
+  programs.nixvim.enable = true;
 
   home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
 

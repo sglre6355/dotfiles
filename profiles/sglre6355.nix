@@ -1,11 +1,17 @@
 {
   lib,
   pkgs,
+  hostPlatform,
   ...
 }:
 {
   imports = [
     ./core.nix
+
+    ../modules/home/common/neovim.nix
+
+    ../modules/home/common/firefox.nix
+    ../modules/home/common/wezterm.nix
 
     ../modules/home/common/veracrypt.nix
     ../modules/home/common/rtorrent.nix
@@ -16,6 +22,9 @@
     ../modules/home/common/kubernetes.nix
     ../modules/home/common/opencode.nix
     ../modules/home/common/podman.nix
+  ]
+  ++ lib.optionals hostPlatform.isLinux [
+    ../modules/home/linux/junction.nix
   ];
 
   home.username = lib.mkDefault "sglre6355";
