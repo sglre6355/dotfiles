@@ -33,15 +33,23 @@
         mode = "1920x1080@120Hz";
         pos = "1920 0";
       };
+      "MS Telematica MStar Demo 0x00000001" = {
+        mode = "1360x768@60Hz";
+        pos = "2200 -768";
+      };
     };
     workspaceOutputAssign = [
       {
         workspace = "1";
+        output = "AOC 24B3HA2 AVKR69A005771";
+      }
+      {
+        workspace = "9";
         output = "AOC 24B3HA2 AVKR69A005233";
       }
       {
         workspace = "10";
-        output = "AOC 24B3HA2 AVKR69A005771";
+        output = "MS Telematica MStar Demo 0x00000001";
       }
     ];
   };
