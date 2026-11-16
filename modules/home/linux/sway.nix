@@ -25,6 +25,15 @@ let
     fi
     ${pkgs.procps}/bin/pkill -RTMIN+8 waybar
   '';
+
+  cycleOutputFocus = pkgs.writeShellScript "cycle-output-focus" ''
+    name=$(${pkgs.sway}/bin/swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r --argjson step "$1" '
+      [.[] | select(.active)] | sort_by(.rect.x, .rect.y) as $outs
+      | ($outs | map(.focused) | index(true)) as $i
+      | $outs[($i + $step) % ($outs | length)].name
+    ')
+    [ -n "$name" ] && exec ${pkgs.sway}/bin/swaymsg focus output "$name"
+  '';
 in
 {
   imports = [
@@ -69,9 +78,8 @@ in
         "Alt+Tab" = "workspace next_on_output";
         "Alt+Shift+Tab" = "workspace prev_on_output";
 
-        # Cycle outputs whether they are laid out vertically or horizontally.
-        "Alt+Control+Tab" = "focus output down; focus output right";
-        "Alt+Control+Shift+Tab" = "focus output up; focus output left";
+        "Alt+Control+Tab" = "exec ${cycleOutputFocus} 1";
+        "Alt+Control+Shift+Tab" = "exec ${cycleOutputFocus} -1";
 
         "${modifier}+Control+Shift+Left" = "move workspace to output left";
         "${modifier}+Control+Shift+Down" = "move workspace to output down";
