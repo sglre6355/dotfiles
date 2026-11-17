@@ -1,12 +1,7 @@
 {
-  pkgs,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    herdr-core
-  ];
-
   programs.herdr = {
     enable = true;
     settings = {
