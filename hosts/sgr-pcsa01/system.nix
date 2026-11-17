@@ -1,5 +1,4 @@
 {
-  lib,
   modulesPath,
   pkgs,
   username,
@@ -24,7 +23,12 @@
 
   users.users.${username}.initialPassword = "password";
 
-  environment.systemPackages = [ (lib.lowPrio pkgs.busybox) ];
+  environment.systemPackages = [
+    (pkgs.runCommand "ether-wake" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.busybox}/bin/busybox $out/bin/ether-wake
+    '')
+  ];
 
   programs.zsh.enable = true;
 
