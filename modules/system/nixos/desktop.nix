@@ -12,7 +12,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${config.programs.sway.package}/bin/sway";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd '${config.programs.uwsm.package}/bin/uwsm start -g -1 -F -- ${config.programs.sway.package}/bin/sway'";
         user = "greeter";
       };
     };
@@ -30,6 +30,8 @@
     wrapperFeatures.gtk = true;
     extraPackages = [ ];
   };
+
+  programs.uwsm.enable = true;
 
   fonts.packages = with pkgs; [
     noto-fonts

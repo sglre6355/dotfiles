@@ -5,6 +5,11 @@
   ...
 }:
 let
+  launchApp = pkgs.writeShellScript "launch-app" ''
+    entry=$(${config.programs.wofi.package}/bin/wofi --show drun -D key_expand=Tab -D drun-print_desktop_file=true) || exit 0
+    exec uwsm app -- "''${entry/ /:}"
+  '';
+
   # Sway ignores idle inhibitors held by regular clients (such as Waybar) while
   # the session is locked, so the inhibitor stops swayidle instead.
   swayidleIsActive = "${pkgs.systemd}/bin/systemctl --user --quiet is-active swayidle.service";
@@ -47,10 +52,11 @@ in
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    systemd.enable = false;
     config = rec {
       modifier = "Mod4";
-      terminal = "wezterm";
-      menu = "${config.programs.wofi.package}/bin/wofi --show drun -D key_expand=Tab";
+      terminal = "uwsm app -- wezterm";
+      menu = "${launchApp}";
       input = {
         "type:touchpad" = {
           tap = "enabled";
@@ -68,6 +74,9 @@ in
         {
           command = "${pkgs.waybar}/bin/waybar";
         }
+      ];
+      startup = [
+        { command = "uwsm finalize"; }
       ];
       focus.wrapping = "workspace";
       workspaceLayout = "tabbed";

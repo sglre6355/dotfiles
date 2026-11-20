@@ -26,4 +26,10 @@
     ProcessSizeMax = "2G";
     ExternalSizeMax = "2G";
   };
+
+  systemd.oomd = {
+    enableRootSlice = true;
+    enableSystemSlice = true;
+    enableUserSlices = true;
+  };
 }
