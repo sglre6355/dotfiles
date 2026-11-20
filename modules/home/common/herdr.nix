@@ -1,7 +1,11 @@
 {
+  pkgs,
   ...
 }:
 {
+  # The agent integration hooks installed by herdr run python3.
+  home.packages = [ pkgs.python3 ];
+
   programs.herdr = {
     enable = true;
     settings = {
