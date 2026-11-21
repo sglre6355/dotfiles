@@ -99,11 +99,26 @@ in
       };
 
       lsp = {
-        onAttach = /* lua */ ''
-          vim.api.nvim_set_keymap("n", "<A-CR>", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-          vim.api.nvim_set_keymap("n", "<A-S-CR>", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
-          vim.api.nvim_set_keymap("n", "<A-BS>", "<C-t>", { noremap = true, silent = true })
-        '';
+        keymaps = [
+          {
+            mode = "n";
+            lspBufAction = "definition";
+            key = "<A-CR>";
+            options.silent = true;
+          }
+          {
+            mode = "n";
+            lspBufAction = "declaration";
+            key = "<A-S-CR>";
+            options.silent = true;
+          }
+          {
+            mode = "n";
+            action = "<C-t>";
+            key = "<A-BS>";
+            options.silent = true;
+          }
+        ];
         servers = {
           clangd = {
             enable = true;
