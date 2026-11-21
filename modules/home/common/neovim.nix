@@ -32,6 +32,7 @@ in
         hadolint
         commitlint
         golangci-lint
+        oxlint
         rumdl
         nix
       ];
@@ -191,7 +192,8 @@ in
               cuda = [ "clang-format" ];
               go = [ "golangci-lint" ];
               html = [ "prettierd" ];
-              javascript = [ "prettierd" ];
+              javascript = [ "oxfmt" ];
+              javascriptreact = [ "oxfmt" ];
               lua = [ "stylua" ];
               markdown = [ "rumdl" ];
               nix = [ "nixfmt" ];
@@ -200,6 +202,8 @@ in
               # TODO: configure nightly options
               rust = [ "rustfmt" ];
               sql = [ "sql_formatter" ];
+              typescript = [ "oxfmt" ];
+              typescriptreact = [ "oxfmt" ];
               typst = [ "typstyle" ];
               xml = [ "xmlformatter" ];
               yaml = [ "yamlfmt" ];
@@ -282,6 +286,7 @@ in
               };
             };
             tinymist.enable = true;
+            tsc.enable = true;
             ty.enable = true;
           };
         };
@@ -301,8 +306,12 @@ in
             dockerfile = [ "hadolint" ];
             gitcommit = [ "commitlint" ];
             go = [ "golangcilint" ];
+            javascript = [ "oxlint" ];
+            javascriptreact = [ "oxlint" ];
             markdown = [ "rumdl" ];
             nix = [ "nix" ];
+            typescript = [ "oxlint" ];
+            typescriptreact = [ "oxlint" ];
           };
         };
         lualine.enable = true;
