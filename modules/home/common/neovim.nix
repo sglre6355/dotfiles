@@ -98,6 +98,52 @@ in
         update_in_insert = true;
       };
 
+      lsp = {
+        onAttach = /* lua */ ''
+          vim.api.nvim_set_keymap("n", "<A-CR>", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+          vim.api.nvim_set_keymap("n", "<A-S-CR>", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
+          vim.api.nvim_set_keymap("n", "<A-BS>", "<C-t>", { noremap = true, silent = true })
+        '';
+        servers = {
+          clangd = {
+            enable = true;
+            config.init_options.fallbackFlags = [ "-std=c++23" ];
+          };
+          gopls = {
+            enable = true;
+            packageFallback = true;
+          };
+          nixd.enable = true;
+          rust_analyzer = {
+            enable = true;
+            packageFallback = true;
+            cargo.enable = true;
+            rustc.enable = true;
+            config = {
+              cmd = lib.nixvim.mkRaw ''
+                vim.lsp.rpc.connect("127.0.0.1", 27631)
+              '';
+              settings.rust-analyzer = {
+                cargo.features = "all";
+                lspMux = {
+                  version = "1";
+                  method = "connect";
+                  server = "rust-analyzer";
+                  # lspmux starts rust-analyzer outside the project's devshell.
+                  # Give it neovim's PATH so it can find the project's tools.
+                  env = lib.nixvim.mkRaw ''
+                    { PATH = vim.env.PATH .. ":${rustToolchainPath}" }
+                  '';
+                };
+              };
+            };
+          };
+          tinymist.enable = true;
+          tsc.enable = true;
+          ty.enable = true;
+        };
+      };
+
       keymaps = [
         {
           mode = "n";
@@ -239,57 +285,6 @@ in
           };
         };
         indent-blankline.enable = true;
-        lsp = {
-          enable = true;
-          inlayHints = false;
-          onAttach = /* lua */ ''
-            vim.api.nvim_set_keymap("n", "<A-CR>", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-            vim.api.nvim_set_keymap("n", "<A-S-CR>", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
-            vim.api.nvim_set_keymap("n", "<A-BS>", "<C-t>", { noremap = true, silent = true })
-          '';
-          servers = {
-            clangd = {
-              enable = true;
-              extraOptions = {
-                init_options = {
-                  fallbackFlags = [ "-std=c++23" ];
-                };
-              };
-            };
-            gopls = {
-              enable = true;
-              packageFallback = true;
-            };
-            nixd.enable = true;
-            rust_analyzer = {
-              enable = true;
-              packageFallback = true;
-              installCargo = true;
-              installRustc = true;
-              extraOptions = {
-                cmd = lib.nixvim.mkRaw ''
-                  vim.lsp.rpc.connect("127.0.0.1", 27631)
-                '';
-                settings.rust-analyzer = {
-                  cargo.features = "all";
-                  lspMux = {
-                    version = "1";
-                    method = "connect";
-                    server = "rust-analyzer";
-                    # lspmux starts rust-analyzer outside the project's devshell.
-                    # Give it neovim's PATH so it can find the project's tools.
-                    env = lib.nixvim.mkRaw ''
-                      { PATH = vim.env.PATH .. ":${rustToolchainPath}" }
-                    '';
-                  };
-                };
-              };
-            };
-            tinymist.enable = true;
-            tsc.enable = true;
-            ty.enable = true;
-          };
-        };
         lint = {
           enable = true;
           linters = {
@@ -314,6 +309,7 @@ in
             typescriptreact = [ "oxlint" ];
           };
         };
+        lspconfig.enable = true;
         lualine.enable = true;
         luasnip.enable = true;
         nvim-ufo = {
