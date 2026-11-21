@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }:
@@ -8,6 +9,6 @@
   ];
 
   home.shellAliases = {
-    veracrypt = "veracrypt -t";
+    veracrypt = "${lib.getExe' pkgs.veracrypt "veracrypt"} -t";
   };
 }

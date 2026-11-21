@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -12,7 +13,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd '${config.programs.uwsm.package}/bin/uwsm start -g -1 -F -- ${config.programs.sway.package}/bin/sway'";
+        command = "${lib.getExe pkgs.tuigreet} --time --cmd '${lib.getExe config.programs.uwsm.package} start -g -1 -F -- ${lib.getExe config.programs.sway.package}'";
         user = "greeter";
       };
     };

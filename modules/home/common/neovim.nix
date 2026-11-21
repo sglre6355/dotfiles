@@ -347,7 +347,7 @@ in
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.lspmux}/bin/lspmux server";
+      ExecStart = "${lib.getExe pkgs.lspmux} server";
       Environment = [
         "PATH=${rustToolchainPath}"
         "RUST_SRC_PATH=${pkgs.rustPlatform.rustLibSrc}"

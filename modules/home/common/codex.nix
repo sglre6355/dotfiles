@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   llmAgentsPkgs,
   pkgs,
   ...
@@ -17,5 +18,5 @@
   # to run unless it finds a "managed standalone" install at this fixed path.
   # Point it at the Nix-provided binary instead of running that installer.
   home.file.".codex/packages/standalone/current/codex".source =
-    "${config.programs.codex.package}/bin/codex";
+    lib.getExe config.programs.codex.package;
 }

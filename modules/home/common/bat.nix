@@ -1,9 +1,11 @@
 {
+  config,
+  lib,
   ...
 }:
 {
   home.shellAliases = {
-    cat = "bat -pP";
+    cat = "${lib.getExe config.programs.bat.package} -pP";
   };
 
   programs.bat = {

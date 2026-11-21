@@ -28,24 +28,24 @@
   home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
 
   home.shellAliases = {
-    tree = "${pkgs.tree}/bin/tree --gitignore";
+    tree = "${lib.getExe pkgs.tree} --gitignore";
   };
 
   programs.zsh.initContent = /* zsh */ ''
     # cd into a ghq-managed repository
     cdr() {
       local repo
-      repo=$(ghq list --full-path | fzf --scheme=path) && cd "$repo"
+      repo=$(${lib.getExe pkgs.ghq} list --full-path | ${lib.getExe config.programs.fzf.package} --scheme=path) && cd "$repo"
     }
 
     # cd into a git-wt-managed worktree
     cdw() {
       local worktree
-      worktree=$(git-wt --json | ${pkgs.jq}/bin/jq -r '.[].path' | fzf --scheme=path) && cd "$worktree"
+      worktree=$(${lib.getExe pkgs.git-wt} --json | ${lib.getExe pkgs.jq} -r '.[].path' | ${lib.getExe config.programs.fzf.package} --scheme=path) && cd "$worktree"
     }
 
     # enable `git wt` directory switching
-    eval "$(git-wt --init zsh)"
+    eval "$(${lib.getExe pkgs.git-wt} --init zsh)"
   '';
 
   home.packages = with pkgs; [

@@ -1,4 +1,5 @@
 {
+  lib,
   llmAgentsPkgs,
   pkgs,
   ...
@@ -11,7 +12,7 @@
     settings = {
       statusLine = {
         type = "command";
-        command = "${llmAgentsPkgs.ccstatusline}/bin/ccstatusline";
+        command = lib.getExe llmAgentsPkgs.ccstatusline;
         padding = 0;
       };
       attribution = {

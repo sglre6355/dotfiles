@@ -1,4 +1,5 @@
 {
+  lib,
   modulesPath,
   pkgs,
   username,
@@ -26,7 +27,7 @@
   environment.systemPackages = [
     (pkgs.runCommand "ether-wake" { } ''
       mkdir -p $out/bin
-      ln -s ${pkgs.busybox}/bin/busybox $out/bin/ether-wake
+      ln -s ${lib.getExe pkgs.busybox} $out/bin/ether-wake
     '')
   ];
 

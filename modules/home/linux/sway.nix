@@ -6,13 +6,13 @@
 }:
 let
   launchApp = pkgs.writeShellScript "launch-app" ''
-    entry=$(${config.programs.wofi.package}/bin/wofi --show drun -D key_expand=Tab -D drun-print_desktop_file=true) || exit 0
-    exec uwsm app -- "''${entry/ /:}"
+    entry=$(${lib.getExe config.programs.wofi.package} --show drun -D key_expand=Tab -D drun-print_desktop_file=true) || exit 0
+    exec ${lib.getExe pkgs.uwsm} app -- "''${entry/ /:}"
   '';
 
   # Sway ignores idle inhibitors held by regular clients (such as Waybar) while
   # the session is locked, so the inhibitor stops swayidle instead.
-  swayidleIsActive = "${pkgs.systemd}/bin/systemctl --user --quiet is-active swayidle.service";
+  swayidleIsActive = "${lib.getExe' pkgs.systemd "systemctl"} --user --quiet is-active swayidle.service";
 
   idleInhibitStatus = pkgs.writeShellScript "idle-inhibit-status" ''
     if ${swayidleIsActive}; then
@@ -24,20 +24,20 @@ let
 
   idleInhibitToggle = pkgs.writeShellScript "idle-inhibit-toggle" ''
     if ${swayidleIsActive}; then
-      ${pkgs.systemd}/bin/systemctl --user stop swayidle.service
+      ${lib.getExe' pkgs.systemd "systemctl"} --user stop swayidle.service
     else
-      ${pkgs.systemd}/bin/systemctl --user start swayidle.service
+      ${lib.getExe' pkgs.systemd "systemctl"} --user start swayidle.service
     fi
-    ${pkgs.procps}/bin/pkill -RTMIN+8 waybar
+    ${lib.getExe' pkgs.procps "pkill"} -RTMIN+8 waybar
   '';
 
   cycleOutputFocus = pkgs.writeShellScript "cycle-output-focus" ''
-    name=$(${pkgs.sway}/bin/swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r --argjson step "$1" '
+    name=$(${lib.getExe' pkgs.sway "swaymsg"} -t get_outputs | ${lib.getExe pkgs.jq} -r --argjson step "$1" '
       [.[] | select(.active)] | sort_by(.rect.x, .rect.y) as $outs
       | ($outs | map(.focused) | index(true)) as $i
       | $outs[($i + $step) % ($outs | length)].name
     ')
-    [ -n "$name" ] && exec ${pkgs.sway}/bin/swaymsg focus output "$name"
+    [ -n "$name" ] && exec ${lib.getExe' pkgs.sway "swaymsg"} focus output "$name"
   '';
 in
 {
@@ -55,7 +55,7 @@ in
     systemd.enable = false;
     config = rec {
       modifier = "Mod4";
-      terminal = "uwsm app -- wezterm";
+      terminal = "${lib.getExe pkgs.uwsm} app -- ${lib.getExe config.programs.wezterm.package}";
       menu = "${launchApp}";
       input = {
         "type:touchpad" = {
@@ -72,11 +72,11 @@ in
       };
       bars = [
         {
-          command = "${pkgs.waybar}/bin/waybar";
+          command = lib.getExe pkgs.waybar;
         }
       ];
       startup = [
-        { command = "uwsm finalize"; }
+        { command = "${lib.getExe pkgs.uwsm} finalize"; }
       ];
       focus.wrapping = "workspace";
       workspaceLayout = "tabbed";
@@ -96,30 +96,32 @@ in
         "${modifier}+Control+Shift+Right" = "move workspace to output right";
 
         "--locked XF86AudioRaiseVolume" =
-          "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%+";
+          "exec ${lib.getExe' pkgs.wireplumber "wpctl"} set-volume @DEFAULT_SINK@ 5%+";
         "--locked XF86AudioLowerVolume" =
-          "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_SINK@ 5%-";
-        "--locked XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_SINK@ toggle";
-        "--locked XF86AudioMicMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_SOURCE@ toggle";
+          "exec ${lib.getExe' pkgs.wireplumber "wpctl"} set-volume @DEFAULT_SINK@ 5%-";
+        "--locked XF86AudioMute" =
+          "exec ${lib.getExe' pkgs.wireplumber "wpctl"} set-mute @DEFAULT_SINK@ toggle";
+        "--locked XF86AudioMicMute" =
+          "exec ${lib.getExe' pkgs.wireplumber "wpctl"} set-mute @DEFAULT_SOURCE@ toggle";
 
-        "--locked XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-        "--locked XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "--locked XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+        "--locked XF86AudioPlay" = "exec ${lib.getExe pkgs.playerctl} play-pause";
+        "--locked XF86AudioNext" = "exec ${lib.getExe pkgs.playerctl} next";
+        "--locked XF86AudioPrev" = "exec ${lib.getExe pkgs.playerctl} previous";
 
-        "--locked XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 10%+";
-        "--locked XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 10%-";
-        "--locked XF86MonBrightnessUp+Shift" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
-        "--locked XF86MonBrightnessDown+Shift" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
+        "--locked XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.brightnessctl} set 10%+";
+        "--locked XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.brightnessctl} set 10%-";
+        "--locked XF86MonBrightnessUp+Shift" = "exec ${lib.getExe pkgs.brightnessctl} set 5%+";
+        "--locked XF86MonBrightnessDown+Shift" = "exec ${lib.getExe pkgs.brightnessctl} set 5%-";
 
         # Snipping tool
         "${modifier}+Shift+s" =
-          "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy";
+          "exec ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}";
 
         # Lock screen
-        "${modifier}+l" = "exec ${pkgs.swaylock}/bin/swaylock -f";
+        "${modifier}+l" = "exec ${lib.getExe pkgs.swaylock} -f";
         # Lock screen and suspend
         "${modifier}+Shift+l" =
-          "exec ${pkgs.systemd}/bin/systemctl suspend; ${pkgs.swaylock}/bin/swaylock -f";
+          "exec ${lib.getExe' pkgs.systemd "systemctl"} suspend; ${lib.getExe pkgs.swaylock} -f";
       };
     };
   };
@@ -175,7 +177,7 @@ in
           format = "V: {volume}%";
           format-muted = "V: muted ({volume}%)";
           scroll-step = 5;
-          on-click = "${pkgs.pwvucontrol}/bin/pwvucontrol";
+          on-click = lib.getExe pkgs.pwvucontrol;
         };
 
         battery = {
@@ -296,15 +298,15 @@ in
 
   services.swayidle =
     let
-      lock = "${pkgs.swaylock}/bin/swaylock -f";
-      display = status: "${pkgs.sway}/bin/swaymsg 'output * power ${status}'";
+      lock = "${lib.getExe pkgs.swaylock} -f";
+      display = status: "${lib.getExe' pkgs.sway "swaymsg"} 'output * power ${status}'";
     in
     {
       enable = true;
       timeouts = [
         {
           timeout = 170;
-          command = "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds' -t 10000";
+          command = "${lib.getExe pkgs.libnotify} 'Locking in 10 seconds' -t 10000";
         }
         {
           timeout = 180;
@@ -317,7 +319,7 @@ in
         }
         {
           timeout = 900;
-          command = "${pkgs.systemd}/bin/systemctl suspend";
+          command = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
         }
       ];
       events = {
