@@ -67,7 +67,10 @@
     ];
   };
 
-  programs.discord.enable = true;
+  programs.discord = {
+    enable = true;
+    settings.SKIP_MODULE_UPDATE = true;
+  };
 
   programs.obs-studio.enable = true;
 }
