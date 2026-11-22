@@ -31,5 +31,8 @@
     enableRootSlice = true;
     enableSystemSlice = true;
     enableUserSlices = true;
+    settings.OOM.DefaultMemoryPressureDurationSec = "20s";
   };
+
+  systemd.slices.user.sliceConfig.ManagedOOMMemoryPressureLimit = "30%";
 }
