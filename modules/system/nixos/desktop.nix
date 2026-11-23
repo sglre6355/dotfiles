@@ -49,6 +49,15 @@
 
   programs.uwsm.enable = true;
 
+  systemd.user.units."app-.scope" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Scope]
+      SendSIGHUP=yes
+      TimeoutStopSec=10s
+    '';
+  };
+
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
