@@ -7,6 +7,7 @@
       enable = true;
       enableSSHSupport = true;
     };
+    nix-ld.enable = true;
     zsh.enable = true;
   };
 }
