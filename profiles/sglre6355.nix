@@ -16,6 +16,7 @@
     ../modules/home/common/veracrypt.nix
     ../modules/home/common/rtorrent.nix
 
+    ../modules/home/common/antigravity-cli.nix
     ../modules/home/common/claude-code.nix
     ../modules/home/common/codex.nix
     ../modules/home/common/devenv.nix
