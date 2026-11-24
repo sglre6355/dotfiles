@@ -11,6 +11,7 @@
     ../../modules/home/linux/wayland.nix
     ../../modules/home/linux/mako.nix
     ../../modules/home/linux/sway.nix
+    ../../modules/home/linux/computer-use.nix
   ];
 
   home.stateVersion = "26.05";

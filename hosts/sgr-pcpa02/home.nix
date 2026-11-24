@@ -12,6 +12,7 @@
     ../../modules/home/linux/wayland.nix
     ../../modules/home/linux/mako.nix
     ../../modules/home/linux/sway.nix
+    ../../modules/home/linux/computer-use.nix
     ../../modules/home/linux/wine.nix
   ];
 
